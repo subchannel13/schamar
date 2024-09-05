@@ -2,7 +2,7 @@ name := "schamar"
 
 version := "0.1"
 
-scalaVersion := "2.12.7"
+scalaVersion := "3.3.3"
 
 // add dependencies on standard Scala modules, in a way
 // supporting cross-version publishing
@@ -22,6 +22,6 @@ libraryDependencies := {
         "org.scala-lang.modules" %% "scala-swing" % "1.0.2")
     case _ =>
       // or just libraryDependencies.value if you don't depend on scala-swing
-      libraryDependencies.value :+ "org.scala-lang" % "scala-swing" % scalaVersion.value
+      libraryDependencies.value :+ "org.scala-lang.modules" %% "scala-swing" % "3.0.0"
   }
 }
