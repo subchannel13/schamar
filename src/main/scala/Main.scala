@@ -4,26 +4,25 @@ import swing.event._
 object Main extends SimpleSwingApplication {
     def top: MainFrame = new MainFrame {
         title = "Schamar"
-        // preferredSize = new Dimension(800, 600)
 
-        val inputText = new TextField {
+        private val inputText = new TextField {
             columns = 20
         }
-        val browseInput = new Button {
+        private val browseInput = new Button {
             text = "Browse..."
         }
-        val mode1 = new RadioButton {
+        private val mode1 = new RadioButton {
             text = "Binary mode"
             selected = true
         }
-        val mode2 = new RadioButton {
+        private val mode2 = new RadioButton {
             text = "Comparison mode"
         }
         new ButtonGroup {
             buttons += mode1
             buttons += mode2
         }
-        val startButton = new Button {
+        private val startButton = new Button {
             text = "Start"
         }
 
@@ -68,7 +67,7 @@ object Main extends SimpleSwingApplication {
             )
         }
 
-        val chooser = new FileChooser {
+        private val chooser = new FileChooser {
             fileSelectionMode = FileChooser.SelectionMode.DirectoriesOnly
         }
 
@@ -77,7 +76,7 @@ object Main extends SimpleSwingApplication {
         reactions += {
             case ButtonClicked(button) => {
                 if (button == browseInput && chooser.showOpenDialog(this) == FileChooser.Result.Approve) {
-                    inputText.text = chooser.selectedFile.getPath()
+                    inputText.text = chooser.selectedFile.getPath
                 }
             }
         }
