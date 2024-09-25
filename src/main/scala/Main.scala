@@ -1,5 +1,5 @@
-import swing._
-import swing.event._
+import swing.*
+import swing.event.*
 
 object Main extends SimpleSwingApplication {
     def top: MainFrame = new MainFrame {
@@ -9,6 +9,12 @@ object Main extends SimpleSwingApplication {
             columns = 20
         }
         private val browseInput = new Button {
+            text = "Browse..."
+        }
+        private val outputText = new TextField {
+            columns = 20
+        }
+        private val browseOutput = new Button {
             text = "Browse..."
         }
         private val mode1 = new RadioButton {
@@ -59,11 +65,13 @@ object Main extends SimpleSwingApplication {
             )
             add(inputText, constraints(0, 1))
             add(browseInput, constraints(1, 1))
-            add(mode1, constraints(0, 2, 2, fill = GridBagPanel.Fill.Horizontal))
-            add(mode2, constraints(0, 3, 2, fill = GridBagPanel.Fill.Horizontal))
+            add(outputText, constraints(0, 2))
+            add(browseOutput, constraints(1, 2))
+            add(mode1, constraints(0, 3, 2, fill = GridBagPanel.Fill.Horizontal))
+            add(mode2, constraints(0, 4, 2, fill = GridBagPanel.Fill.Horizontal))
             add(
               startButton,
-              constraints(0, 4, 2, fill = GridBagPanel.Fill.Horizontal)
+              constraints(0, 5, 2, fill = GridBagPanel.Fill.Horizontal)
             )
         }
 
@@ -72,13 +80,17 @@ object Main extends SimpleSwingApplication {
         }
 
         listenTo(browseInput)
+        listenTo(browseOutput)
         listenTo(startButton)
         reactions += {
-            case ButtonClicked(button) => {
+            case ButtonClicked(button) =>
                 if (button == browseInput && chooser.showOpenDialog(this) == FileChooser.Result.Approve) {
                     inputText.text = chooser.selectedFile.getPath
+                } else if (button == browseOutput && chooser.showOpenDialog(this) == FileChooser.Result.Approve) {
+                    outputText.text = chooser.selectedFile.getPath
+                } else if (button == startButton) {
+                    println("Start")
                 }
-            }
         }
     }
 }
