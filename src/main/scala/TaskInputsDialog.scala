@@ -1,10 +1,15 @@
+import ClassificationMode.{Binary, Comparison}
+
 import swing.*
 import swing.event.*
 
 class TaskInputsDialog extends Dialog {
     modal = true
     title = "Task inputs"
-    
+
+    private var _settings: TaskInputs = _
+    def settings: TaskInputs = _settings
+
     private val inputText = new TextField {
         columns = 20
     }
@@ -89,8 +94,8 @@ class TaskInputsDialog extends Dialog {
             } else if (button == browseOutput && chooser.showOpenDialog(this) == FileChooser.Result.Approve) {
                 outputText.text = chooser.selectedFile.getPath
             } else if (button == startButton) {
-                println("Start")
-                new BinaryView().visible = true
+                _settings = new TaskInputs(inputText.text, outputText.text, if (mode1.selected) Binary else Comparison)
+                close()
             }
     }
 }
