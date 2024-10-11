@@ -1,6 +1,5 @@
 import ClassificationMode.{Binary, Comparison}
 
-import java.util.prefs.{BackingStoreException, Preferences}
 import swing.*
 import swing.event.*
 
@@ -8,32 +7,30 @@ class TaskInputsDialog extends Dialog {
     modal = true
     title = "Task inputs"
 
-    private val preferences = Preferences.userNodeForPackage(classOf[TaskInputs])
-
-    private var _settings: TaskInputs = _
+    private var _settings = TaskInputs.fromProps()
     def settings: TaskInputs = _settings
 
     private val inputText = new TextField {
         columns = 20
-        text = preferences.get("inputPath", "")
+        text = settings.inputPath
     }
     private val browseInput = new Button {
         text = "Browse..."
     }
     private val outputText = new TextField {
         columns = 20
-        text = preferences.get("outputPath", "")
+        text = settings.outputPath
     }
     private val browseOutput = new Button {
         text = "Browse..."
     }
     private val mode1 = new RadioButton {
         text = "Binary mode"
-        selected = preferences.getBoolean("mode1", true)
+        selected = settings.mode == ClassificationMode.Binary
     }
     private val mode2 = new RadioButton {
         text = "Comparison mode"
-        selected = !preferences.getBoolean("mode1", true)
+        selected = settings.mode == ClassificationMode.Comparison
     }
     new ButtonGroup {
         buttons += mode1
@@ -76,21 +73,11 @@ class TaskInputsDialog extends Dialog {
         case ButtonClicked(button) =>
             if (button == browseInput && chooser.showOpenDialog(this) == FileChooser.Result.Approve) {
                 inputText.text = chooser.selectedFile.getPath
-                preferences.put("inputPath", inputText.text)
             } else if (button == browseOutput && chooser.showOpenDialog(this) == FileChooser.Result.Approve) {
                 outputText.text = chooser.selectedFile.getPath
-                preferences.put("outputPath", outputText.text)
-            } else if (button == mode1) {
-                preferences.putBoolean("mode1", mode1.selected)
-            } else if (button == mode2) {
-                preferences.putBoolean("mode1", !mode2.selected)
             } else if (button == startButton) {
                 _settings = new TaskInputs(inputText.text, outputText.text, if (mode1.selected) Binary else Comparison)
-                try {
-                    preferences.flush()
-                } catch {
-                    case ex: BackingStoreException =>
-                }
+                _settings.save()
                 close()
             }
     }
