@@ -10,6 +10,5 @@ namespace Schamar.ViewModels;
 public partial class MainWindowViewModel : ViewModelBase
 {
     [ObservableProperty] private string _inputPath = "";
-
-    //public string InputPath { get; set; }
+    [ObservableProperty] private string _outputPath = "";
 }

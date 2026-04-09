@@ -23,4 +23,20 @@ public partial class MainWindow : Window
 
         (this.DataContext as MainWindowViewModel)!.InputPath = folder[0].Path.LocalPath;
     }
+    
+    private async void BrowseOutput_Click(object sender, RoutedEventArgs e) 
+    {
+        var folder = await StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
+        {
+            Title = "Open Text File",
+            AllowMultiple = false,
+        });
+
+        (this.DataContext as MainWindowViewModel)!.OutputPath = folder[0].Path.LocalPath;
+    }
+
+    private void Start_OnClick(object? sender, RoutedEventArgs e)
+    {
+        throw new NotImplementedException();
+    }
 }
