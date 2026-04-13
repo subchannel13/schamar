@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
@@ -21,7 +22,8 @@ public partial class MainWindow : Window
             AllowMultiple = false,
         });
 
-        (this.DataContext as MainWindowViewModel)!.InputPath = folder[0].Path.LocalPath;
+        if (folder.Any())
+            (this.DataContext as MainWindowViewModel)!.InputPath = folder[0].Path.LocalPath;
     }
     
     private async void BrowseOutput_Click(object sender, RoutedEventArgs e) 
@@ -32,11 +34,13 @@ public partial class MainWindow : Window
             AllowMultiple = false,
         });
 
-        (this.DataContext as MainWindowViewModel)!.OutputPath = folder[0].Path.LocalPath;
+        if (folder.Any())
+            (this.DataContext as MainWindowViewModel)!.OutputPath = folder[0].Path.LocalPath;
     }
 
-    private void Start_OnClick(object? sender, RoutedEventArgs e)
+    private async void Start_OnClick(object? sender, RoutedEventArgs e)
     {
-        throw new NotImplementedException();
+        var window = new SingleImageWindow();
+        await window.ShowDialog(this);
     }
 }
