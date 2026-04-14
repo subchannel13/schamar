@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
@@ -40,7 +41,15 @@ public partial class MainWindow : Window
 
     private async void Start_OnClick(object? sender, RoutedEventArgs e)
     {
-        var window = new SingleImageWindow();
-        await window.ShowDialog(this);
+        var folder = new DirectoryInfo((this.DataContext as MainWindowViewModel)!.InputPath);
+        if (!folder.Exists)
+            return;
+
+        var window = new SingleImageWindow
+        {
+            DataContext = new SingleImageWindowViewModel(folder)
+        };
+
+    await window.ShowDialog(this);
     }
 }
