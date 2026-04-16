@@ -6,6 +6,7 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Schamar.Views.SingleImageWindow"
         x:DataType="vm:SingleImageWindowViewModel"
-        Title="SingleImageWindow">
+        Title="SingleImageWindow"
+        Background="Black">
     <Image Source="{Binding CurrentImage}"></Image>
 </Window>
