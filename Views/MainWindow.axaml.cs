@@ -45,11 +45,14 @@ public partial class MainWindow : Window
         if (!folder.Exists)
             return;
 
+        var viewModel = new SingleImageWindowViewModel(folder);
+        if (!viewModel.HasNextImage) return;
+        
+        viewModel.NextImage();
         var window = new SingleImageWindow
         {
-            DataContext = new SingleImageWindowViewModel(folder)
+            DataContext = viewModel
         };
-
-    await window.ShowDialog(this);
+        await window.ShowDialog(this);
     }
 }

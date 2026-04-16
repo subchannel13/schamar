@@ -20,12 +20,13 @@ public partial class SingleImageWindowViewModel : ViewModelBase
         this.files = folder.GetFiles()
             .Where(f => f.Extension.ToLowerInvariant() is ".jpg")
             .ToList();
-        this.nextImage();
     }
 
     [ObservableProperty] private IImage _currentImage;
 
-    private void nextImage()
+    public bool HasNextImage => this.files.Any();
+        
+    public void NextImage()
     {
         var i = random.Next(0, files.Count);
         var file = files[i];
