@@ -5,6 +5,7 @@ using System.Linq;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace Schamar.ViewModels;
 
@@ -23,9 +24,19 @@ public partial class SingleImageWindowViewModel : ViewModelBase
     }
 
     [ObservableProperty] private IImage _currentImage;
-
-    public bool HasNextImage => this.files.Any();
+    
+    [RelayCommand]
+    public void Reject()
+    {
+        //TODO
+        Console.WriteLine("Rejecting");
         
+        if (HasNextImage)
+            this.NextImage();
+    }
+    
+    public bool HasNextImage => this.files.Any();
+    
     public void NextImage()
     {
         var i = random.Next(0, files.Count);

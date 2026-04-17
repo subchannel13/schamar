@@ -7,6 +7,10 @@
         x:Class="Schamar.Views.SingleImageWindow"
         x:DataType="vm:SingleImageWindowViewModel"
         Title="SingleImageWindow"
-        Background="Black">
+        Background="Black"
+        Focusable="True">
     <Image Source="{Binding CurrentImage}"></Image>
+    <Window.KeyBindings>
+        <KeyBinding Gesture="Delete" Command="{Binding Reject}"></KeyBinding>
+    </Window.KeyBindings>
 </Window>
