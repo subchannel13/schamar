@@ -12,5 +12,7 @@
     <Image Source="{Binding CurrentImage}"></Image>
     <Window.KeyBindings>
         <KeyBinding Gesture="Delete" Command="{Binding Reject}"></KeyBinding>
+        <KeyBinding Gesture="Space" Command="{Binding Accept}"></KeyBinding>
+        <KeyBinding Gesture="Enter" Command="{Binding Accept}"></KeyBinding>
     </Window.KeyBindings>
 </Window>

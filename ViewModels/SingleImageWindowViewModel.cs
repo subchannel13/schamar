@@ -6,21 +6,17 @@ using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Schamar.Models;
 
 namespace Schamar.ViewModels;
 
 public partial class SingleImageWindowViewModel : ViewModelBase
 {
-    private DirectoryInfo folder;
-    private readonly List<FileInfo> files;
-    private readonly Random random = new Random();
+    private readonly FileSorter sorter;
 
-    public SingleImageWindowViewModel(DirectoryInfo folder)
+    public SingleImageWindowViewModel(FileSorter sorter)
     {
-        this.folder = folder;
-        this.files = folder.GetFiles()
-            .Where(f => f.Extension.ToLowerInvariant() is ".jpg")
-            .ToList();
+        this.sorter = sorter;
     }
 
     [ObservableProperty] private IImage _currentImage;
@@ -28,21 +24,25 @@ public partial class SingleImageWindowViewModel : ViewModelBase
     [RelayCommand]
     public void Reject()
     {
-        //TODO
-        Console.WriteLine("Rejecting");
-        
+        this.sorter.Reject();
         if (HasNextImage)
-            this.NextImage();
+            this.UpdateImage();
     }
     
-    public bool HasNextImage => this.files.Any();
-    
-    public void NextImage()
+    [RelayCommand]
+    public void Accept()
     {
-        var i = random.Next(0, files.Count);
-        var file = files[i];
-        files.RemoveAt(i);
-
+        this.sorter.Accept();
+        if (HasNextImage)
+            this.UpdateImage();
+    }
+    
+    public bool HasNextImage => this.sorter.Current != null;
+    
+    public void UpdateImage()
+    {
+        var file = this.sorter.Current!;
+        
         using var stream = file.OpenRead();
         this.CurrentImage = new Bitmap(stream);
     }

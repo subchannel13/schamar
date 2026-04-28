@@ -4,6 +4,7 @@ using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
+using Schamar.Models;
 using Schamar.ViewModels;
 
 namespace Schamar.Views;
@@ -45,10 +46,11 @@ public partial class MainWindow : Window
         if (!folder.Exists)
             return;
 
-        var viewModel = new SingleImageWindowViewModel(folder);
+        var sorter = new FileSorter(folder);
+        var viewModel = new SingleImageWindowViewModel(sorter);
         if (!viewModel.HasNextImage) return;
         
-        viewModel.NextImage();
+        viewModel.UpdateImage();
         var window = new SingleImageWindow
         {
             DataContext = viewModel
