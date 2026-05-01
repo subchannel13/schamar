@@ -36,7 +36,13 @@ public partial class SingleImageWindowViewModel : ViewModelBase
         if (HasNextImage)
             this.UpdateImage();
     }
-    
+
+    [RelayCommand]
+    public void Finish()
+    {
+        this.sorter.Finish();
+    }
+
     public bool HasNextImage => this.sorter.Current != null;
     
     public void UpdateImage()

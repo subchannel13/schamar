@@ -14,6 +14,7 @@ public class FileSorter
     private Dictionary<FileInfo, bool> decision = new();
     
     public FileInfo? Current { get; private set; } = null;
+    public event Action? OnFinish;
 
     public FileSorter(DirectoryInfo folder)
     {
@@ -46,5 +47,10 @@ public class FileSorter
     {
         decision[Current!] = false;
         Current = next();
+    }
+
+    public void Finish()
+    {
+        this.OnFinish?.Invoke();
     }
 }

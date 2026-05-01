@@ -55,6 +55,7 @@ public partial class MainWindow : Window
         {
             DataContext = viewModel
         };
+        sorter.OnFinish += window.Close;
         await window.ShowDialog(this);
     }
 }
