@@ -51,11 +51,17 @@ public partial class MainWindow : Window
         if (!viewModel.HasNextImage) return;
         
         viewModel.UpdateImage();
-        var window = new SingleImageWindow
+        var sortWindow = new SingleImageWindow
         {
             DataContext = viewModel
         };
-        sorter.OnFinish += window.Close;
-        await window.ShowDialog(this);
+        sorter.OnFinish += sortWindow.Close;
+        await sortWindow.ShowDialog(this);
+
+        var resultViewModel = new ResultsWindowViewModel(sorter.Decisions());
+        var resultWindow = new ResultsWindow
+        {
+            DataContext = viewModel
+        };
     }
 }

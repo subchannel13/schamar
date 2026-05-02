@@ -1,0 +1,19 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:Schamar.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="Schamar.Views.ResultsWindow"
+        x:DataType="vm:ResultsWindowViewModel"
+        Title="ResultsWindow">
+    <DataGrid Margin="20" ItemsSource="{Binding Files}" 
+              IsReadOnly="True" 
+              GridLinesVisibility="All"
+              BorderThickness="1" BorderBrush="Gray">
+        <DataGrid.Columns>
+            <DataGridTextColumn Header=""  Binding="{Binding Decision}"/>
+            <DataGridTextColumn Header="File" Binding="{Binding File}" />
+        </DataGrid.Columns>
+    </DataGrid>
+</Window>

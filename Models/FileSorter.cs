@@ -53,4 +53,10 @@ public class FileSorter
     {
         this.OnFinish?.Invoke();
     }
+
+    public IEnumerable<FileDecision> Decisions()
+    {
+        //TODO
+        throw new NotImplementedException();
+    }
 }
