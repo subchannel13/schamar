@@ -8,16 +8,18 @@ namespace Schamar.Models;
 public class FileSorter
 {
     private readonly Random random = new();
-    
-    private List<FileInfo> allFiles;
-    private List<FileInfo> fileQueue;
-    private Dictionary<FileInfo, bool> decision = new();
+
+    private readonly DirectoryInfo folder;
+    private readonly List<FileInfo> allFiles;
+    private readonly List<FileInfo> fileQueue;
+    private readonly Dictionary<FileInfo, bool> decision = new();
     
     public FileInfo? Current { get; private set; } = null;
     public event Action? OnFinish;
 
     public FileSorter(DirectoryInfo folder)
     {
+        this.folder = folder;
         allFiles = folder.GetFiles()
             .Where(f => f.Extension.ToLowerInvariant() is ".jpg")
             .ToList();
@@ -60,7 +62,8 @@ public class FileSorter
             f,
             decision.TryGetValue(f, out var value) 
                 ? value ? SortDecision.Accepted : SortDecision.Rejected 
-                : SortDecision.Undecided
+                : SortDecision.Undecided,
+            folder
         )).ToList();
     }
 }

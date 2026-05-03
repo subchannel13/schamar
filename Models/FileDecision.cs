@@ -8,10 +8,13 @@ public class FileDecision
     public FileInfo File { get; private set; }
     public SortDecision Decision { get; private set; }
     
-    public FileDecision(FileInfo file, SortDecision decision)
+    private DirectoryInfo folder { get; }
+
+    public FileDecision(FileInfo file, SortDecision decision, DirectoryInfo folder)
     {
         File = file;
         Decision = decision;
+        this.folder = folder;
     }
 
     public string DecisionColumn => Decision switch
@@ -21,4 +24,6 @@ public class FileDecision
         SortDecision.Undecided => "?",
         _ => throw new ArgumentOutOfRangeException()
     };
+    
+    public string FileName => Path.GetRelativePath(folder.FullName, File.FullName);
 }

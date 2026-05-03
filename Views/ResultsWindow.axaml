@@ -16,7 +16,7 @@
               BorderThickness="1" BorderBrush="Gray">
         <DataGrid.Columns>
             <DataGridTextColumn Header=""  Binding="{Binding DecisionColumn}"/>
-            <DataGridTextColumn Header="File" Binding="{Binding File}" Width="*"/>
+            <DataGridTextColumn Header="File" Binding="{Binding FileName}" Width="*"/>
         </DataGrid.Columns>
     </DataGrid>
 </Window>
