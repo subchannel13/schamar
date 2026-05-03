@@ -10,10 +10,13 @@
     <DataGrid Margin="20" ItemsSource="{Binding Files}" 
               IsReadOnly="True" 
               GridLinesVisibility="All"
+              CanUserReorderColumns="True"
+              CanUserResizeColumns="True"
+              CanUserSortColumns="True"
               BorderThickness="1" BorderBrush="Gray">
         <DataGrid.Columns>
-            <DataGridTextColumn Header=""  Binding="{Binding Decision}"/>
-            <DataGridTextColumn Header="File" Binding="{Binding File}" />
+            <DataGridTextColumn Header=""  Binding="{Binding DecisionColumn}"/>
+            <DataGridTextColumn Header="File" Binding="{Binding File}" Width="*"/>
         </DataGrid.Columns>
     </DataGrid>
 </Window>

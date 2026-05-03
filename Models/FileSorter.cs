@@ -54,9 +54,13 @@ public class FileSorter
         this.OnFinish?.Invoke();
     }
 
-    public IEnumerable<FileDecision> Decisions()
+    public List<FileDecision> Decisions()
     {
-        //TODO
-        throw new NotImplementedException();
+        return this.allFiles.Select(f => new FileDecision(
+            f,
+            decision.TryGetValue(f, out var value) 
+                ? value ? SortDecision.Accepted : SortDecision.Rejected 
+                : SortDecision.Undecided
+        )).ToList();
     }
 }

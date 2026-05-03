@@ -61,7 +61,8 @@ public partial class MainWindow : Window
         var resultViewModel = new ResultsWindowViewModel(sorter.Decisions());
         var resultWindow = new ResultsWindow
         {
-            DataContext = viewModel
+            DataContext = resultViewModel
         };
+        await resultWindow.ShowDialog(this);
     }
 }

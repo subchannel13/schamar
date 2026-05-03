@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 
 namespace Schamar.Models;
@@ -12,4 +13,12 @@ public class FileDecision
         File = file;
         Decision = decision;
     }
+
+    public string DecisionColumn => Decision switch
+    {
+        SortDecision.Accepted => "✔",
+        SortDecision.Rejected => "❌",
+        SortDecision.Undecided => "?",
+        _ => throw new ArgumentOutOfRangeException()
+    };
 }
