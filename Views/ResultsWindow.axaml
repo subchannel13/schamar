@@ -7,16 +7,22 @@
         x:Class="Schamar.Views.ResultsWindow"
         x:DataType="vm:ResultsWindowViewModel"
         Title="ResultsWindow">
-    <DataGrid Margin="20" ItemsSource="{Binding Files}" 
-              IsReadOnly="True" 
-              GridLinesVisibility="All"
-              CanUserReorderColumns="True"
-              CanUserResizeColumns="True"
-              CanUserSortColumns="True"
-              BorderThickness="1" BorderBrush="Gray">
-        <DataGrid.Columns>
-            <DataGridTextColumn Header=""  Binding="{Binding DecisionColumn}"/>
-            <DataGridTextColumn Header="File" Binding="{Binding FileName}" Width="*"/>
-        </DataGrid.Columns>
-    </DataGrid>
+    <DockPanel Margin="20" VerticalSpacing="4">
+        <StackPanel DockPanel.Dock="Bottom" HorizontalAlignment="Right" Spacing="4" Orientation="Horizontal">
+            <Button Content="Commit" Click="Commit_Click"></Button>
+            <Button Content="Abort" Click="Abort_Click"></Button>
+        </StackPanel>
+        <DataGrid ItemsSource="{Binding Files}" 
+                  IsReadOnly="True" 
+                  GridLinesVisibility="All"
+                  CanUserReorderColumns="True"
+                  CanUserResizeColumns="True"
+                  CanUserSortColumns="True"
+                  BorderThickness="1" BorderBrush="Gray">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header=""  Binding="{Binding DecisionColumn}"/>
+                <DataGridTextColumn Header="File" Binding="{Binding FileName}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
 </Window>

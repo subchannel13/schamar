@@ -58,11 +58,29 @@ public partial class MainWindow : Window
         sorter.OnFinish += sortWindow.Close;
         await sortWindow.ShowDialog(this);
 
-        var resultViewModel = new ResultsWindowViewModel(sorter.Decisions());
+        var resultViewModel = new ResultsWindowViewModel(sorter);
         var resultWindow = new ResultsWindow
         {
             DataContext = resultViewModel
         };
-        await resultWindow.ShowDialog(this);
+
+        if (!await resultWindow.ShowDialog<bool>(this)) 
+            return;
+        
+        var destination = new DirectoryInfo((this.DataContext as MainWindowViewModel)!.OutputPath);
+        destination.Create();
+        foreach (var file in sorter.Decisions())
+        {
+            switch (file.Decision)
+            {
+                case SortDecision.Accepted:
+                    file.File.CopyTo(Path.Combine(destination.FullName, file.File.Name));
+                    file.File.Delete();
+                    break;
+                case SortDecision.Rejected:
+                    file.File.Delete();
+                    break;
+            }
+        }
     }
 }

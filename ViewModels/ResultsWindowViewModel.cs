@@ -6,13 +6,7 @@ using Schamar.Models;
 
 namespace Schamar.ViewModels;
 
-public class ResultsWindowViewModel : ViewModelBase
+public class ResultsWindowViewModel(FileSorter sorter) : ViewModelBase
 {
-    public ObservableCollection<FileDecision> Files { get; }
-
-    public ResultsWindowViewModel(List<FileDecision> decisions)
-    {
-        this.Files = new ObservableCollection<FileDecision>(decisions);
-        Console.WriteLine(this.Files.Count);
-    }
+    public ObservableCollection<FileDecision> Files { get; } = new(sorter.Decisions());
 }
