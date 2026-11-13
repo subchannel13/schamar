@@ -27,6 +27,8 @@ public partial class SingleImageWindowViewModel : ViewModelBase
         this.sorter.Reject();
         if (HasNextImage)
             this.UpdateImage();
+        else
+            this.Finish();
     }
     
     [RelayCommand]
@@ -35,6 +37,8 @@ public partial class SingleImageWindowViewModel : ViewModelBase
         this.sorter.Accept();
         if (HasNextImage)
             this.UpdateImage();
+        else
+            this.Finish();
     }
 
     [RelayCommand]
