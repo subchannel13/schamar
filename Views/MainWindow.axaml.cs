@@ -1,6 +1,6 @@
 using System;
 using System.IO;
-using System.Linq;
+using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
@@ -18,26 +18,42 @@ public partial class MainWindow : Window
     
     private async void BrowseInput_Click(object sender, RoutedEventArgs e) 
     {
-        var folder = await StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
-        {
-            Title = "Open Text File",
-            AllowMultiple = false,
-        });
+        var viewModel = (MainWindowViewModel)DataContext!;
+        var folder = await PickFolderAsync("Select Input Folder", viewModel.InputPath);
 
-        if (folder.Any())
-            (this.DataContext as MainWindowViewModel)!.InputPath = folder[0].Path.LocalPath;
+        if (folder is not null)
+            viewModel.InputPath = folder;
     }
     
     private async void BrowseOutput_Click(object sender, RoutedEventArgs e) 
     {
-        var folder = await StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
+        var viewModel = (MainWindowViewModel)DataContext!;
+        var folder = await PickFolderAsync("Select Output Folder", viewModel.OutputPath);
+
+        if (folder is not null)
+            viewModel.OutputPath = folder;
+    }
+
+    private async Task<string?> PickFolderAsync(string title, string? currentPath)
+    {
+        var startLocation = await GetExistingFolderAsync(currentPath);
+
+        var folders = await StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
         {
-            Title = "Open Text File",
+            Title = title,
             AllowMultiple = false,
+            SuggestedStartLocation = startLocation,
         });
 
-        if (folder.Any())
-            (this.DataContext as MainWindowViewModel)!.OutputPath = folder[0].Path.LocalPath;
+        return folders.Count > 0 ? folders[0].Path.LocalPath : null;
+    }
+
+    private async Task<IStorageFolder?> GetExistingFolderAsync(string? path)
+    {
+        if (string.IsNullOrWhiteSpace(path) || !Path.IsPathRooted(path) || !Directory.Exists(path))
+            return null;
+
+        return await StorageProvider.TryGetFolderFromPathAsync(path);
     }
 
     private async void Start_OnClick(object? sender, RoutedEventArgs e)
